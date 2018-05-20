@@ -1,9 +1,26 @@
 import React, { Component } from 'react';
-import Timer from './Timer';
+import { View, Text } from 'react-native';
+import  { createStackNavigator }  from 'react-navigation';
+import HomeContainer from './containers/HomeContainer';
+import ClockContainer from './containers/ClockContainer';
+import SettingsContainer from './containers/SettingsContainer';
 
 class App extends Component {
   render() {
-    return <Timer />;
+    const AppNavigator = createStackNavigator({
+      HomeScreen: {
+        screen: HomeContainer
+      },
+      SettingScreen: {
+        screen: SettingsContainer
+      },
+      ClockScreen: {
+        screen: ClockContainer
+      }
+    });
+    return (
+      <AppNavigator />
+    );
   }
 }
 

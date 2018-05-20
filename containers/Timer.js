@@ -71,7 +71,7 @@ class Timer extends Component {
 
     return (
       <View style={styles.container}>
-        <View>
+        <View style={styles.content}>
           <Text style={styles.time}>
             {hours}
             :
