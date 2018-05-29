@@ -1,22 +1,23 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, TouchableHighlight, Button } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-
 import Time from '../components/Time';
-import ControlButton from '../components/ControlButton';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 class ClockContainer extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      colors: [ '#F44336', '#673AB7', '#03A9F4', '#1B5E20', '#FFC107', '#795548', '#212121', '#607D8B', '#009688' ],
+      colors: ['#F44336', '#673AB7', '#03A9F4', '#1B5E20', '#FFC107', '#795548', '#212121', '#607D8B', '#009688'],
       time: new Date(),
-      number: 0,
       bgColor: '#F44336',
       isPalette: false
     };
   }
+  
+  static navigationOptions = {
+    title: '타이머'
+  };
 
   componentDidMount() {
     setInterval(this.setTime, 1000);
@@ -25,19 +26,6 @@ class ClockContainer extends Component {
   setTime = () => {
     this.setState({
       time: new Date()
-    });
-  }
-
-  getRandomNumber = () => {
-    const { colors } = this.state;
-    const max = colors.length - 1;
-
-    return Math.floor(Math.random() * (max - 0 + 1)) + 0;
-  }
-
-  onChangeColor = () => {
-    this.setState({
-      number: this.getRandomNumber()
     });
   }
 
@@ -57,7 +45,7 @@ class ClockContainer extends Component {
   }
 
   render() {
-    const { colors, number, time, isPalette, bgColor } = this.state;
+    const { colors, time, isPalette, bgColor } = this.state;
     const hours = time.getHours();
     const min = time.getMinutes();
     const sec = time.getSeconds();
@@ -102,7 +90,7 @@ class ClockContainer extends Component {
         alignItems: 'center'
       },
       time: {
-        fontSize: 80,
+        fontSize: 60,
         color: '#fff'
       },
       bottom: {
@@ -114,7 +102,7 @@ class ClockContainer extends Component {
         color: '#fff'
       }
     });
-    const myIcon = (<Icon name="paint-brush" size={16} color="#fff" />)
+    const myIcon = (<Icon name="paint-brush" size={16} color="#fff" />);
 
     return (
       <View style={styles.container}>
@@ -151,7 +139,7 @@ class ClockContainer extends Component {
         </View>
         <View style={styles.content}>
           <Text style={styles.time}>
-            {hours}
+            {hours < 12 ? 'am' : 'pm'} {hours}
             :
             {min < 10 ? `0${min}` : `${min}`}
             :
@@ -159,7 +147,6 @@ class ClockContainer extends Component {
           </Text>
         </View>
         <View style={styles.bottom}>
-          {/* <ControlButton onChangeColor={this.onChangeColor} /> */}
           <Text style={styles.text}>:)</Text>
         </View>
       </View>
