@@ -9,10 +9,10 @@ const styles = StyleSheet.create({
 });
 
 
-const Time = (props) => {
+const Time = ({ hours, min, sec }) => {
   return (
     <Text style={styles.time}>
-      {hours}
+      {hours < 12 ? 'am' : 'pm'} {hours}
       :
       {min < 10 ? `0${min}` : `${min}`}
       :

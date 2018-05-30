@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, TouchableHighlight, Button } from 'react-native';
+import Palette from "../components/Palette";
 import Time from '../components/Time';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -72,18 +73,6 @@ class ClockContainer extends Component {
       icon: {
         padding: 10
       },
-      palette: {
-        flexWrap: 'wrap',
-        flexDirection: 'row',
-        position: 'absolute',
-        zIndex: 1,
-        top: 44,
-        right: 10,
-        width: 100,
-        height: 100,
-        padding: 3,
-        backgroundColor: 'rgba(255, 255, 255, 0.8)'
-      },
       content: {
         flex: 4,
         justifyContent: 'center',
@@ -107,44 +96,22 @@ class ClockContainer extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.top}>
-          <TouchableHighlight
-            onPress={this.togglePalette}
-          >
+          <TouchableHighlight onPress={this.togglePalette}>
             <Text style={styles.icon}>{myIcon}</Text>
           </TouchableHighlight>
-          {isPalette ?
-            <View style={styles.palette}>
-              {colors.map((color, idx) => {
-                const styles = {
-                  width: 25,
-                  height: 25,
-                  borderRadius: 3,
-                  margin: 3,
-                  backgroundColor: color
-                };
-                return (
-                  <TouchableHighlight
-                    id={idx}
-                    key={idx}
-                    onPress={() => this.onSelectColor(color)}
-                  >
-                    <View style={styles} />
-                  </TouchableHighlight>
-                );
-              })}
-            </View>
-            :
-            null
+          {isPalette &&
+            <Palette
+              colors={colors}
+              onSelectColor={this.onSelectColor}
+            />
           }
         </View>
         <View style={styles.content}>
-          <Text style={styles.time}>
-            {hours < 12 ? 'am' : 'pm'} {hours}
-            :
-            {min < 10 ? `0${min}` : `${min}`}
-            :
-            {sec < 10 ? `0${sec}` : `${sec}`}
-          </Text>
+          <Time
+            hours={hours}
+            min={min}
+            sec={sec}
+          />
         </View>
         <View style={styles.bottom}>
           <Text style={styles.text}>:)</Text>
