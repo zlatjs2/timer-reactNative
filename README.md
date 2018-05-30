@@ -56,3 +56,8 @@ __align-content__ : Flex 컨테이너 사이의 간격을 조절
 - `space-between`: 여러 줄들 사이에 동일한 간격으로 정렬
 - `space-around`: 여러 줄들 주위에 동일한 간격으로 정렬
 - `stretch`: 여러 줄들을 컨테이너에 맞도록 늘림
+
+
+## Animation
+
+[참고](https://medium.com/@marong61/react-native-animation-kor-%ED%95%9C%EA%B8%80-e269755af419)
