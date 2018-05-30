@@ -24,6 +24,7 @@ const RootStack = createStackNavigator(
     }
   }
 );
+
 class App extends Component {
   render() {
     return (
