@@ -9,16 +9,14 @@ const styles = StyleSheet.create({
 });
 
 
-const Time = ({ hours, min, sec }) => {
-  return (
-    <Text style={styles.time}>
-      {hours < 12 ? 'am' : 'pm'} {hours}
-      :
-      {min < 10 ? `0${min}` : `${min}`}
-      :
-      {sec < 10 ? `0${sec}` : `${sec}`}
-    </Text>
-  )
-}
+const Time = ({ hours, min, sec }) => (
+  <Text style={styles.time}>
+    {hours < 12 ? `am ${hours}` : `pm ${hours - 12}`}
+    :
+    {min < 10 ? `0${min}` : `${min}`}
+    :
+    {sec < 10 ? `0${sec}` : `${sec}`}
+  </Text>
+);
 
 export default Time;
