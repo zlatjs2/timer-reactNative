@@ -1,25 +1,34 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Button } from 'react-native';
 import  { createStackNavigator }  from 'react-navigation';
 import HomeContainer from './containers/HomeContainer';
 import ClockContainer from './containers/ClockContainer';
 import SettingsContainer from './containers/SettingsContainer';
 
+const RootStack = createStackNavigator(
+  {
+    HomeScreen: HomeContainer,
+    SettingScreen: SettingsContainer,
+    ClockScreen: ClockContainer
+  },
+  {
+    initialRouteName: "HomeScreen",
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: "#fff"
+      },
+      headerTintColor: "#222",
+      headerTitleStyle: {
+        fontWeight: "bold"
+      }
+    }
+  }
+);
+
 class App extends Component {
   render() {
-    const AppNavigator = createStackNavigator({
-      HomeScreen: {
-        screen: HomeContainer
-      },
-      SettingScreen: {
-        screen: SettingsContainer
-      },
-      ClockScreen: {
-        screen: ClockContainer
-      }
-    });
     return (
-      <AppNavigator />
+      <RootStack />
     );
   }
 }

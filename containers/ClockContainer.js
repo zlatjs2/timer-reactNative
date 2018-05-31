@@ -1,16 +1,23 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, TouchableHighlight, Button } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Palette from "../components/Palette";
 import Time from '../components/Time';
-import ControlButton from '../components/ControlButton';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 class ClockContainer extends Component {
-  state = {
-    colors: [ '#F44336', '#673AB7', '#03A9F4', '#1B5E20', '#FFC107', '#795548', '#212121', '#607D8B', '#009688' ],
-    time: new Date(),
-    number: 0,
-    bgColor: '#F44336',
-    isPalette: false
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      colors: ['#F44336', '#673AB7', '#03A9F4', '#1B5E20', '#FFC107', '#795548', '#212121', '#607D8B', '#009688'],
+      time: new Date(),
+      bgColor: '#F44336',
+      isPalette: false
+    };
+  }
+
+  static navigationOptions = {
+    title: '타이머'
   };
 
   componentDidMount() {
@@ -20,19 +27,6 @@ class ClockContainer extends Component {
   setTime = () => {
     this.setState({
       time: new Date()
-    });
-  }
-
-  getRandomNumber = () => {
-    const { colors } = this.state;
-    const max = colors.length - 1;
-
-    return Math.floor(Math.random() * (max - 0 + 1)) + 0;
-  }
-
-  onChangeColor = () => {
-    this.setState({
-      number: this.getRandomNumber()
     });
   }
 
@@ -52,7 +46,7 @@ class ClockContainer extends Component {
   }
 
   render() {
-    const { colors, number, time, isPalette, bgColor } = this.state;
+    const { colors, time, isPalette, bgColor } = this.state;
     const hours = time.getHours();
     const min = time.getMinutes();
     const sec = time.getSeconds();
@@ -79,25 +73,13 @@ class ClockContainer extends Component {
       icon: {
         padding: 10
       },
-      palette: {
-        flexWrap: 'wrap',
-        flexDirection: 'row',
-        position: 'absolute',
-        zIndex: 1,
-        top: 44,
-        right: 10,
-        width: 100,
-        height: 100,
-        padding: 3,
-        backgroundColor: 'rgba(255, 255, 255, 0.8)'
-      },
       content: {
         flex: 4,
         justifyContent: 'center',
         alignItems: 'center'
       },
       time: {
-        fontSize: 80,
+        fontSize: 60,
         color: '#fff'
       },
       bottom: {
@@ -109,52 +91,29 @@ class ClockContainer extends Component {
         color: '#fff'
       }
     });
-    const myIcon = (<Icon name="paint-brush" size={16} color="#fff" />)
+    const myIcon = (<Icon name="paint-brush" size={16} color="#fff" />);
 
     return (
       <View style={styles.container}>
         <View style={styles.top}>
-          <TouchableHighlight
-            onPress={this.togglePalette}
-          >
+          <TouchableHighlight onPress={this.togglePalette}>
             <Text style={styles.icon}>{myIcon}</Text>
           </TouchableHighlight>
-          {isPalette ?
-            <View style={styles.palette}>
-              {colors.map((color, idx) => {
-                const styles = {
-                  width: 25,
-                  height: 25,
-                  borderRadius: 3,
-                  margin: 3,
-                  backgroundColor: color
-                };
-                return (
-                  <TouchableHighlight
-                    id={idx}
-                    key={idx}
-                    onPress={() => this.onSelectColor(color)}
-                  >
-                    <View style={styles} />
-                  </TouchableHighlight>
-                );
-              })}
-            </View>
-          :
-            null
+          {isPalette &&
+            <Palette
+              colors={colors}
+              onSelectColor={this.onSelectColor}
+            />
           }
         </View>
         <View style={styles.content}>
-          <Text style={styles.time}>
-            {hours}
-            :
-            {min < 10 ? `0${min}` : `${min}`}
-            :
-            {sec < 10 ? `0${sec}` : `${sec}`}
-          </Text>
+          <Time
+            hours={hours}
+            min={min}
+            sec={sec}
+          />
         </View>
         <View style={styles.bottom}>
-          {/* <ControlButton onChangeColor={this.onChangeColor} /> */}
           <Text style={styles.text}>:)</Text>
         </View>
       </View>
