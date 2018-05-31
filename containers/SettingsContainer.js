@@ -13,20 +13,14 @@ const WINDOW_H = Dimensions.get('window').height;
 const WINDOW_W = Dimensions.get('window').width;
 
 class SettingsContainer extends Component {
-  constructor (props, context) {
-    super(props, context);
-    this.state = {
-      value: new Animated.Value(0),
-    };
+  state = {
+    value: new Animated.Value(0),
   }
 
   componentWillMount () {
     this.translateX = this.state.value.interpolate({
       inputRange: [0, 1],
-      outputRange: [0, WINDOW_W/2],
-      // extrapolate : 'extend' | 'identity' | 'clamp',
-      // extrapolateRight : 'extend' | 'identity' | 'clamp',
-      // extrapolateLeft : 'extend' | 'identity' | 'clamp',
+      outputRange: [0, WINDOW_W/2]
     });
 
     this.rotate = this.state.value.interpolate({

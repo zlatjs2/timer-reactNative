@@ -4,7 +4,6 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Time from '../components/Time';
 import ControlButton from '../components/ControlButton';
 
-
 class ClockContainer extends Component {
   state = {
     colors: [ '#F44336', '#673AB7', '#03A9F4', '#1B5E20', '#FFC107', '#795548', '#212121', '#607D8B', '#009688' ],
@@ -119,15 +118,6 @@ class ClockContainer extends Component {
             onPress={this.togglePalette}
           >
             <Text style={styles.icon}>{myIcon}</Text>
-            <Animated.View
-              style={{
-                transform: [
-                {scale: this.state.scale},
-                {rotateY: this.state.rotateY},
-                {perspective: 1000}, // without this line this Animation will not render on Android while working fine on iOS
-                ],
-              }}
-            />
           </TouchableHighlight>
           {isPalette ?
             <View style={styles.palette}>
