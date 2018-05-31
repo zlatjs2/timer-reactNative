@@ -1,7 +1,7 @@
 {
-  "expoServerPort": 19002,
-  "packagerPort": 19001,
-  "packagerPid": 46984,
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
   "expoServerNgrokUrl": "https://at-4ys.zlatjs2.timer-reactnative.exp.direct",
   "packagerNgrokUrl": "https://packager.at-4ys.zlatjs2.timer-reactnative.exp.direct",
   "ngrokPid": 47001
