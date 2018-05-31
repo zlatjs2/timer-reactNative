@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Button } from 'react-native';
+import AnimationBox from '../components/AnimationBox';
 
 class HomeContainer extends Component {
   static navigationOptions = {
@@ -9,6 +10,7 @@ class HomeContainer extends Component {
   render() {
     return (
       <View>
+        <AnimationBox />
         <Button
           onPress={() => this.props.navigation.navigate("ClockScreen")}
           title="프로젝트1: 타이머"

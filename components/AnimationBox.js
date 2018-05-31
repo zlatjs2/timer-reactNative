@@ -1,31 +1,14 @@
 import React, { Component } from 'react';
-import ReactNative from 'react-native';
-const {
-  View,
-  StyleSheet,
-  Animated,
-  Dimensions,
-  Button
-} = ReactNative;
+import { View, StyleSheet, Animated, Dimensions, Button } from 'react-native';
 
 const SQUARE_H = 100;
 const SQUARE_W = 100;
 const WINDOW_H = Dimensions.get('window').height;
 const WINDOW_W = Dimensions.get('window').width;
 
-class SettingsContainer extends Component {
+class AnimationBox extends Component {
   state = {
     value: new Animated.Value(0),
-  }
-
-  static navigationOptions = {
-    title: '샘플 페이지',
-    headerRight: (
-      <Button
-        onPress={() => alert('이렇게 쓸수도 있어요!')}
-        title="search"
-      />
-    ),
   }
 
   componentWillMount () {
@@ -72,4 +55,4 @@ const s = StyleSheet.create({
   }
 });
 
-export default SettingsContainer;
+export default AnimationBox;
