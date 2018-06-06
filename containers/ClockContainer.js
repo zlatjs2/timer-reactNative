@@ -1,27 +1,39 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, TouchableHighlight, Button } from 'react-native';
+import { StyleSheet, View, Text, TouchableHighlight, Button, Animated, Easing } from 'react-native';
 import Palette from "../components/Palette";
 import Time from '../components/Time';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 class ClockContainer extends Component {
-  constructor(props) {
-    super(props);
+  state = {
+    colors: ['#F44336', '#673AB7', '#03A9F4', '#1B5E20', '#FFC107', '#795548', '#212121', '#607D8B', '#009688'],
+    time: new Date(),
+    bgColor: '#F44336',
+    isPalette: false,
+    value: new Animated.Value(0),
+  };
 
-    this.state = {
-      colors: ['#F44336', '#673AB7', '#03A9F4', '#1B5E20', '#FFC107', '#795548', '#212121', '#607D8B', '#009688'],
-      time: new Date(),
-      bgColor: '#F44336',
-      isPalette: false
-    };
-  }
-  
   static navigationOptions = {
     title: '타이머'
   };
 
+  componentWillMount () {
+    this.translateY = this.state.value.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, 44]
+    });
+  }
+
   componentDidMount() {
     setInterval(this.setTime, 1000);
+  }
+
+  getTransform () {
+    return {
+      transform: [
+        {translateY: this.translateY}
+      ]
+    }
   }
 
   setTime = () => {
@@ -32,6 +44,13 @@ class ClockContainer extends Component {
 
   togglePalette = () => {
     const { isPalette } = this.state;
+
+    Animated.timing(this.state.value, {
+      duration: 200,
+      toValue: 1,
+      delay: 100,
+      easing: Easing.ease
+    }).start();
 
     this.setState({
       isPalette: !isPalette
@@ -96,14 +115,17 @@ class ClockContainer extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.top}>
+
           <TouchableHighlight onPress={this.togglePalette}>
             <Text style={styles.icon}>{myIcon}</Text>
           </TouchableHighlight>
           {isPalette &&
-            <Palette
-              colors={colors}
-              onSelectColor={this.onSelectColor}
-            />
+            <Animated.View style={this.getTransform()}>
+              <Palette
+                colors={colors}
+                onSelectColor={this.onSelectColor}
+              />
+            </Animated.View>
           }
         </View>
         <View style={styles.content}>
