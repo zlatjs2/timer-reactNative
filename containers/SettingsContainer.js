@@ -18,15 +18,15 @@ class SettingsContainer extends Component {
     value: new Animated.Value(0),
   }
 
-  static navigationOptions = {
-    title: '샘플 페이지',
-    headerRight: (
-      <Button
-        onPress={() => alert('이렇게 쓸수도 있어요!')}
-        title="search"
-      />
-    ),
-  }
+  // static navigationOptions = {
+  //   title: '샘플',
+  //   headerRight: (
+  //     <Button
+  //       onPress={() => alert('이렇게 쓸수도 있어요!')}
+  //       title="search"
+  //     />
+  //   ),
+  // }
 
   componentWillMount () {
     this.translateX = this.state.value.interpolate({

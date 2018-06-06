@@ -3,9 +3,6 @@ import { StyleSheet, View, Text, Button } from 'react-native';
 import AnimationBox from '../components/AnimationBox';
 
 class HomeContainer extends Component {
-  static navigationOptions = {
-    title: "Main"
-  };
 
   render() {
     return (
