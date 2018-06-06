@@ -3,7 +3,7 @@ import { StyleSheet, Text } from 'react-native';
 
 const styles = StyleSheet.create({
   time: {
-    fontSize: 80,
+    fontSize: 60,
     color: '#fff'
   }
 });
@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
 
 const Time = ({ hours, min, sec }) => (
   <Text style={styles.time}>
-    {hours < 12 ? `am ${hours}` : `pm ${hours - 12}`}
+    {hours < 12 ? `AM ${hours}` : `PM ${hours - 12}`}
     :
     {min < 10 ? `0${min}` : `${min}`}
     :

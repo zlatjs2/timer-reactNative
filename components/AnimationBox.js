@@ -13,13 +13,13 @@ class AnimationBox extends Component {
 
   componentWillMount () {
     this.translateX = this.state.value.interpolate({
-      inputRange: [0, 1],
-      outputRange: [0, WINDOW_W/2]
+      inputRange: [0, 0],
+      outputRange: [0, 50]
     });
 
     this.rotate = this.state.value.interpolate({
       inputRange: [0, 1],
-      outputRange: ['0deg', '360deg'],
+      outputRange: ['0deg', '0deg'],
     })
   }
 
@@ -34,25 +34,21 @@ class AnimationBox extends Component {
   getTransform () {
     return {
       transform: [
-        {translateX: this.translateX},
+        {translateY: this.translateX},
         {rotate: this.rotate}
       ]
     }
   }
 
   render () {
+    const { children } = this.props;
+
     return (
-      <Animated.View style={[s.square, this.getTransform()]}/>
+      <Animated.View style={this.getTransform()}>
+        {children}
+      </Animated.View>
     )
   }
 }
-
-const s = StyleSheet.create({
-  square : {
-    height: SQUARE_H,
-    width: SQUARE_W,
-    backgroundColor: '#ff0000',
-  }
-});
 
 export default AnimationBox;

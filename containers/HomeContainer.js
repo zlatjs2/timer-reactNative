@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Button } from 'react-native';
+import { StyleSheet, View, Text, Button } from 'react-native';
 import AnimationBox from '../components/AnimationBox';
 
 class HomeContainer extends Component {
@@ -10,7 +10,6 @@ class HomeContainer extends Component {
   render() {
     return (
       <View>
-        <AnimationBox />
         <Button
           onPress={() => this.props.navigation.navigate("ClockScreen")}
           title="프로젝트1: 타이머"
@@ -23,5 +22,19 @@ class HomeContainer extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  box: {
+    width: 20,
+    height: 20,
+    backgroundColor: 'gray',
+    transform: [
+      {
+        translateY: 1
+      }
+    ]
+  }
+})
+
 
 export default HomeContainer;
