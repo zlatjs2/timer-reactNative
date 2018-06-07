@@ -80,43 +80,39 @@ class AlarmContainer extends Component {
             {minutes < 10 ? `0${minutes}` : minutes}
           </Text>
         </View>
-        <View style={styles.timeOption}>
-          <View style={styles.optionItem}>
-            <Picker selectedValue={type} onValueChange={this.onChangeType}>
-              <Picker.Item label="오전" value="오전" />
-              <Picker.Item label="오후" value="오후" />
-            </Picker>
-          </View>
-          <View style={[styles.optionItem, styles.optionHours]}>
-            <Picker selectedValue={hour} onValueChange={this.onChangeHour}>
-              <Picker.Item label="1" value="1" />
-              <Picker.Item label="2" value="2" />
-              <Picker.Item label="3" value="3" />
-              <Picker.Item label="4" value="4" />
-              <Picker.Item label="5" value="5" />
-              <Picker.Item label="6" value="6" />
-            </Picker>
-          </View>
-          <View style={[styles.optionItem, styles.optionMins]}>
-            <Picker selectedValue={min} onValueChange={this.onChangeMin}>
-              <Picker.Item label="5" value="5" />
-              <Picker.Item label="10" value="10" />
-              <Picker.Item label="15" value="15" />
-              <Picker.Item label="20" value="20" />
-              <Picker.Item label="25" value="25" />
-              <Picker.Item label="30" value="30" />
-            </Picker>
+        <View style={styles.optionBox}>
+          <View style={styles.options}>
+            <View style={styles.optionItem}>
+              <Picker selectedValue={type} onValueChange={this.onChangeType}>
+                <Picker.Item label="오전" value="오전" />
+                <Picker.Item label="오후" value="오후" />
+              </Picker>
+            </View>
+            <View style={[styles.optionItem, styles.optionHours]}>
+              <Picker selectedValue={hour} onValueChange={this.onChangeHour}>
+                <Picker.Item label="1" value="1" />
+                <Picker.Item label="2" value="2" />
+                <Picker.Item label="3" value="3" />
+                <Picker.Item label="4" value="4" />
+                <Picker.Item label="5" value="5" />
+                <Picker.Item label="6" value="6" />
+              </Picker>
+            </View>
+            <View style={[styles.optionItem, styles.optionMins]}>
+              <Picker selectedValue={min} onValueChange={this.onChangeMin}>
+                <Picker.Item label="5" value="5" />
+                <Picker.Item label="10" value="10" />
+                <Picker.Item label="15" value="15" />
+                <Picker.Item label="20" value="20" />
+                <Picker.Item label="25" value="25" />
+                <Picker.Item label="30" value="30" />
+              </Picker>
+            </View>
           </View>
         </View>
-        <View style={styles.inputField}>
+        {/* <View style={styles.inputField}>
           <TextInput style={styles.input} />
-        </View>
-        <Text>
-          {/* 
-            현재시간 - 알람 = 남은 시간 
-            남은 시간이 0 이라면 알람을 알려주는 함수 실행
-          */}
-        </Text>
+        </View> */}
         {items.length === 0 ?
           <View style={styles.emptyBox}>
             <Text style={styles.text}>
@@ -130,13 +126,26 @@ class AlarmContainer extends Component {
             </TouchableOpacity>
           </View>
           :
-          <FlatList data={items} renderItem={({ item, idx }) => 
-          <View key={idx}>
-            <Text>{item.title}</Text>
-            <Text>{item.type}</Text>
-            <Text>{item.hour}</Text>
-            <Text>{item.minute}</Text>
-          </View>} />
+          <FlatList
+            data={items}
+            renderItem={({ item, idx }) => 
+              <View key={idx}>
+                <Text>{item.title}</Text>
+                <Text>{item.type}</Text>
+                <Text>{item.hour}</Text>
+                <Text>{item.minute}</Text>
+                <View>
+                  <Text>
+                    남은 시간: {item.hour - hours} 시간 {item.minute - minutes} 분
+                    {/*
+                      TODO: item.hour이 오전이면, item.hour이 오후면 
+                    */}
+                    {/* {hours >= 12 ? "오후" : "오전"} */}
+                  </Text>
+                </View>
+              </View>
+            }
+          />
         }
       </View>
     );
@@ -146,24 +155,30 @@ class AlarmContainer extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "column",
+    flexDirection: 'column',
     backgroundColor: "#FFC107"
   },
   timeBox: {
-    height: 120,
-    alignItems: "center",
-    backgroundColor: 'gray'
+    flex: 1,
+    alignItems: "center"
   },
   boxItem: {
-    flex: 1,
+    marginTop: 15,
+    height: 30,
     color: "#fff",
     fontSize: 22
   },
   time: {
+    flex: 1,
     fontSize: 50
   },
-  timeOption: {
-    flexDirection: "row"
+  optionBox: {
+    flex: 3
+  },
+  options: {
+    flex: 1,
+    flexDirection : 'row',
+    // backgroundColor: 'blue'
   },
   optionItem: {
     flex: 2
@@ -183,7 +198,9 @@ const styles = StyleSheet.create({
   },
   emptyBox: {
     flex: 1,
-    padding: 10,
+    paddingBottom: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
     justifyContent: "center",
     alignItems: "center"
   },

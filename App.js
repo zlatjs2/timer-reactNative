@@ -6,7 +6,7 @@ import ClockContainer from './containers/ClockContainer';
 import SettingsContainer from './containers/SettingsContainer';
 import AlarmContainer from "./containers/AlarmContainer";
 
-const Stack1 = createStackNavigator({
+const Stack2 = createStackNavigator({
   "1": {
     screen: () =>  <ClockContainer />,
     navigationOptions: {
@@ -16,7 +16,7 @@ const Stack1 = createStackNavigator({
 });
 
 
-const Stack2 = createStackNavigator({
+const Stack1 = createStackNavigator({
   '2': {
     screen: () => <AlarmContainer />,
     navigationOptions: {
