@@ -8,145 +8,168 @@ import {
   TextInput,
   FlatList,
   TouchableOpacity
-} from "react-native";
+} from 'react-native';
 
 class AlarmContainer extends Component {
   state = {
-    type: "",
-    hour: "",
-    min: "",
     date: new Date(),
-    items: []
+    options: {
+      type: '오전',
+      hour: 1,
+      minute: 00
+    },
+    items: [
+      {
+        title: '알람1',
+        hour: 22,
+        minute: 45,
+        seconds: 20
+      }
+    ]
   };
 
   componentDidMount() {
     setInterval(this.setDate, 1000);
   }
 
-  setDate = () => {
-    this.setState({
-      date: new Date()
-    });
-  };
+  setDate = () => this.setState({ date: new Date() });
 
-  onChangeType = type => {
-    this.setState({
-      type
-    });
-  };
+  setAlarm = () => alert('띠용띠용!');
 
-  onChangeHour = hour => {
-    this.setState({
-      hour
-    });
-  };
+  onChangeType = type => this.setState({ options: { type: type } });
 
-  onChangeMin = min => {
-    this.setState({
-      min
-    });
-  };
+  onChangeHour = hour => this.setState({ options: { hour: hour } });
+
+  onChangeMin = minute => this.setState({ options: { minute: minute } });
 
   onCreate = () => {
-    const { date, items, type, hour, min } = this.state;
+    const { items, options } = this.state;
 
     this.setState({
       items: items.concat({
-        title: "알람 테스트",
-        type: type,
-        hour: hour,
-        minute: min
+        title: '알람 테스트',
+        type: options.type,
+        hour: options.hour,
+        minute: options.min
       })
     });
   };
 
-  onRemove = () => {};
-
   render() {
-    const { date, items, type, hour, min } = this.state;
+    const { date, items, options } = this.state;
+    const { type, hour, min } = options;
     const hours = date.getHours();
     const minutes = date.getMinutes();
     const seconds = date.getSeconds();
+    const optionHours = ['1', '2', '3', '4', '5', '6'];
+    const optionMinutes = ['00', '10', '20', '30', '40', '50'];
 
     return (
       <View style={styles.container}>
         <View style={styles.timeBox}>
-          <Text style={styles.boxItem}>
-            {hours >= 12 ? "오후" : "오전"}
-          </Text>
+          <Text style={styles.boxItem}>{hours >= 12 ? '오후' : '오전'}</Text>
           <Text style={[styles.boxItem, styles.time]}>
-            {hours >= 12 ? `0${hours - 12}` : hours}
+            {hours > 12 ? `0${hours - 12}` : hours}
             :
             {minutes < 10 ? `0${minutes}` : minutes}
+            :
+            {seconds < 10 ? `0${seconds}` : seconds}
           </Text>
         </View>
         <View style={styles.optionBox}>
           <View style={styles.options}>
+            {/*
             <View style={styles.optionItem}>
-              <Picker selectedValue={type} onValueChange={this.onChangeType}>
+              <View style={styles.inputField}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="시"
+                  // onChangeText={(text) => this.setState({ text })}
+                />
+              </View>
+            </View>
+            <View style={styles.optionItem}>
+              <View style={styles.inputField}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="분"
+                // onChangeText={(text) => this.setState({ text })}
+                />
+              </View>
+            </View>
+            <View style={styles.optionItem}>
+              <View style={styles.inputField}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="초"
+                // onChangeText={(text) => this.setState({ text })}
+                />
+              </View>
+            </View>
+          */}
+
+            <View style={styles.optionItem}>
+              <Picker
+                selectedValue={options.type}
+                onValueChange={this.onChangeType}
+              >
                 <Picker.Item label="오전" value="오전" />
                 <Picker.Item label="오후" value="오후" />
               </Picker>
             </View>
             <View style={[styles.optionItem, styles.optionHours]}>
-              <Picker selectedValue={hour} onValueChange={this.onChangeHour}>
-                <Picker.Item label="1" value="1" />
-                <Picker.Item label="2" value="2" />
-                <Picker.Item label="3" value="3" />
-                <Picker.Item label="4" value="4" />
-                <Picker.Item label="5" value="5" />
-                <Picker.Item label="6" value="6" />
+              <Picker
+                selectedValue={options.hour}
+                onValueChange={this.onChangeHour}
+              >
+                {optionHours.map((option, idx) => 
+                  <Picker.Item label={option} value={option} /> 
+                )}
               </Picker>
             </View>
             <View style={[styles.optionItem, styles.optionMins]}>
-              <Picker selectedValue={min} onValueChange={this.onChangeMin}>
-                <Picker.Item label="5" value="5" />
-                <Picker.Item label="10" value="10" />
-                <Picker.Item label="15" value="15" />
-                <Picker.Item label="20" value="20" />
-                <Picker.Item label="25" value="25" />
-                <Picker.Item label="30" value="30" />
+              <Picker
+                selectedValue={options.minute}
+                onValueChange={this.onChangeMin}
+              >
+                {optionMinutes.map((option, idx) =>
+                  <Picker.Item label={option} value={option} />
+                )}
               </Picker>
             </View>
           </View>
         </View>
-        {/* <View style={styles.inputField}>
-          <TextInput style={styles.input} />
-        </View> */}
-        {items.length === 0 ?
+        {items.length === 0 ? (
           <View style={styles.emptyBox}>
-            <Text style={styles.text}>
-              추가된 알람이 없습니다.
-            </Text>
+            <Text style={styles.text}>추가된 알람이 없습니다.</Text>
             <TouchableOpacity
               onPress={this.onCreate}
-              style={styles.createButton}>
+              style={styles.createButton}
             >
+              >
               <Text>Create Alarm</Text>
             </TouchableOpacity>
           </View>
-          :
+        ) : (
           <FlatList
             data={items}
-            renderItem={({ item, idx }) => 
+            renderItem={({ item, idx }) => (
               <View key={idx}>
-                <Text>{item.title}</Text>
-                <Text>{item.type}</Text>
-                <Text>{item.hour}</Text>
-                <Text>{item.minute}</Text>
                 <View>
                   <Text>
-                    남은 시간: {item.hour - hours} 시간 {item.minute - minutes} 분
-                    {/*
-                      TODO: item.hour이 오전이면, item.hour이 오후면 
-                    */}
-                    {/* {hours >= 12 ? "오후" : "오전"} */}
+                    알람: {item.hour} 시 {item.minute} 분 {item.seconds} 초
+                  </Text>
+                  <Text>
+                    현재시간: {hours} 시 {minutes} 분 {seconds} 초
+                  </Text>
+                  <Text>
+                    남은시간: {item.hour - hours} 시 {item.minute - minutes} 분 {item.seconds - seconds} 초
                   </Text>
                 </View>
               </View>
-            }
+            )}
           />
-        }
+        )}
       </View>
     );
   }
@@ -156,16 +179,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: "#FFC107"
+    backgroundColor: '#FFC107'
   },
   timeBox: {
     flex: 1,
-    alignItems: "center"
+    alignItems: 'center'
   },
   boxItem: {
     marginTop: 15,
     height: 30,
-    color: "#fff",
+    color: '#fff',
     fontSize: 22
   },
   time: {
@@ -177,7 +200,7 @@ const styles = StyleSheet.create({
   },
   options: {
     flex: 1,
-    flexDirection : 'row',
+    flexDirection: 'row'
     // backgroundColor: 'blue'
   },
   optionItem: {
@@ -194,30 +217,30 @@ const styles = StyleSheet.create({
   },
   input: {
     padding: 15,
-    backgroundColor: "#fff"
+    backgroundColor: '#fff'
   },
   emptyBox: {
     flex: 1,
     paddingBottom: 10,
     paddingLeft: 20,
     paddingRight: 20,
-    justifyContent: "center",
-    alignItems: "center"
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   createButton: {
     width: '100%',
     height: 44,
     borderRadius: 4,
-    backgroundColor: "#795548",
-    justifyContent: "center",
-    alignItems: "center"
+    backgroundColor: '#795548',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   text: {
-    color: "#fff",
+    color: '#fff',
     fontSize: 14,
     padding: 20,
-    alignItems: "center",
-    justifyContent: "center"
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 });
 
