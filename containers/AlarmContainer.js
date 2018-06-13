@@ -13,19 +13,10 @@ import {
 class AlarmContainer extends Component {
   state = {
     date: new Date(),
-    options: {
-      type: '오전',
-      hour: 1,
-      minute: 00
-    },
-    items: [
-      {
-        title: '알람1',
-        hour: 22,
-        minute: 45,
-        seconds: 20
-      }
-    ]
+    myType: '오전',
+    myHour: null,
+    myMinute: null,
+    mySecond: null
   };
 
   componentDidMount() {
@@ -34,35 +25,32 @@ class AlarmContainer extends Component {
 
   setDate = () => this.setState({ date: new Date() });
 
-  setAlarm = () => alert('띠용띠용!');
-
-  onChangeType = type => this.setState({ options: { type: type } });
-
-  onChangeHour = hour => this.setState({ options: { hour: hour } });
-
-  onChangeMin = minute => this.setState({ options: { minute: minute } });
-
-  onCreate = () => {
-    const { items, options } = this.state;
-
-    this.setState({
-      items: items.concat({
-        title: '알람 테스트',
-        type: options.type,
-        hour: options.hour,
-        minute: options.min
-      })
-    });
-  };
-
-  render() {
-    const { date, items, options } = this.state;
-    const { type, hour, min } = options;
+  setAlarm = () => {
+    const { date, myType, myHour, myMinute, mySecond } = this.state;
     const hours = date.getHours();
     const minutes = date.getMinutes();
     const seconds = date.getSeconds();
-    const optionHours = ['1', '2', '3', '4', '5', '6'];
-    const optionMinutes = ['00', '10', '20', '30', '40', '50'];
+
+    const setHour = (myHour - hours) * 3600;
+    const setMinute = (myMinute - minutes) * 60;
+    const setSecond = mySecond - seconds;
+
+    // if (isHour === 0 || isMinute === 0 || isSecond === 0) {
+    //   alert('띠리리리리리링!!!!');
+    // }
+
+    const myAlarmSecond = setHour + setMinute + setSecond;
+
+    setTimeout(() => {
+      alert('띠리리리리리링!!!!', myAlarmSecond);
+    }, 2000);
+  };
+
+  render() {
+    const { date, myHour, myMinute, mySecond } = this.state;
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const seconds = date.getSeconds();
 
     return (
       <View style={styles.container}>
@@ -76,15 +64,15 @@ class AlarmContainer extends Component {
             {seconds < 10 ? `0${seconds}` : seconds}
           </Text>
         </View>
+
         <View style={styles.optionBox}>
           <View style={styles.options}>
-            {/*
             <View style={styles.optionItem}>
               <View style={styles.inputField}>
                 <TextInput
                   style={styles.input}
-                  placeholder="시"
-                  // onChangeText={(text) => this.setState({ text })}
+                  placeholder="오전/오후"
+                  onChangeText={text => this.setState({ myType: text })}
                 />
               </View>
             </View>
@@ -92,8 +80,18 @@ class AlarmContainer extends Component {
               <View style={styles.inputField}>
                 <TextInput
                   style={styles.input}
+                  placeholder="시"
+                  onChangeText={text => this.setState({ myHour: text })}
+                />
+              </View>
+            </View>
+            <View style={styles.optionItem}>
+              20
+              <View style={styles.inputField}>
+                <TextInput
+                  style={styles.input}
                   placeholder="분"
-                // onChangeText={(text) => this.setState({ text })}
+                  onChangeText={text => this.setState({ myMinute: text })}
                 />
               </View>
             </View>
@@ -102,74 +100,30 @@ class AlarmContainer extends Component {
                 <TextInput
                   style={styles.input}
                   placeholder="초"
-                // onChangeText={(text) => this.setState({ text })}
+                  onChangeText={text => this.setState({ mySecond: text })}
                 />
               </View>
             </View>
-          */}
-
-            <View style={styles.optionItem}>
-              <Picker
-                selectedValue={options.type}
-                onValueChange={this.onChangeType}
-              >
-                <Picker.Item label="오전" value="오전" />
-                <Picker.Item label="오후" value="오후" />
-              </Picker>
-            </View>
-            <View style={[styles.optionItem, styles.optionHours]}>
-              <Picker
-                selectedValue={options.hour}
-                onValueChange={this.onChangeHour}
-              >
-                {optionHours.map((option, idx) => 
-                  <Picker.Item label={option} value={option} /> 
-                )}
-              </Picker>
-            </View>
-            <View style={[styles.optionItem, styles.optionMins]}>
-              <Picker
-                selectedValue={options.minute}
-                onValueChange={this.onChangeMin}
-              >
-                {optionMinutes.map((option, idx) =>
-                  <Picker.Item label={option} value={option} />
-                )}
-              </Picker>
-            </View>
           </View>
-        </View>
-        {items.length === 0 ? (
           <View style={styles.emptyBox}>
-            <Text style={styles.text}>추가된 알람이 없습니다.</Text>
             <TouchableOpacity
-              onPress={this.onCreate}
+              onPress={this.setAlarm}
               style={styles.createButton}
             >
               >
-              <Text>Create Alarm</Text>
+              <Text>Set Alarm</Text>
             </TouchableOpacity>
           </View>
-        ) : (
-          <FlatList
-            data={items}
-            renderItem={({ item, idx }) => (
-              <View key={idx}>
-                <View>
-                  <Text>
-                    알람: {item.hour} 시 {item.minute} 분 {item.seconds} 초
-                  </Text>
-                  <Text>
-                    현재시간: {hours} 시 {minutes} 분 {seconds} 초
-                  </Text>
-                  <Text>
-                    남은시간: {item.hour - hours} 시 {item.minute - minutes} 분 {item.seconds - seconds} 초
-                  </Text>
-                </View>
-              </View>
-            )}
-          />
-        )}
+        </View>
+        <View>
+          <Text>
+            알람: {myHour} 시 {myMinute} 분 {mySecond} 초
+          </Text>
+          <Text>
+            남은시간: {(myHour - hours) * 3600} 시 {(myMinute - minutes) * 60}{' '}
+            분 {mySecond - seconds} 초
+          </Text>
+        </View>
       </View>
     );
   }
