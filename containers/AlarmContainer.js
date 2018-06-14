@@ -13,10 +13,12 @@ import {
 class AlarmContainer extends Component {
   state = {
     date: new Date(),
-    myType: '오전',
     myHour: null,
     myMinute: null,
-    mySecond: null
+    mySecond: null,
+    test: '',
+    beforeMillisecond: '',
+    afterMillisecond: ''
   };
 
   componentDidMount() {
@@ -25,32 +27,30 @@ class AlarmContainer extends Component {
 
   setDate = () => this.setState({ date: new Date() });
 
-  setAlarm = () => {
-    const { date, myType, myHour, myMinute, mySecond } = this.state;
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    const seconds = date.getSeconds();
-
-    const setHour = (myHour - hours) * 3600;
-    const setMinute = (myMinute - minutes) * 60;
-    const setSecond = mySecond - seconds;
-
-    // if (isHour === 0 || isMinute === 0 || isSecond === 0) {
-    //   alert('띠리리리리리링!!!!');
-    // }
-
-    const myAlarmSecond = setHour + setMinute + setSecond;
-
+  setAlarm = totalMilliseconds => {
+    // alert(totalMilliseconds);
     setTimeout(() => {
-      alert('띠리리리리리링!!!!', myAlarmSecond);
-    }, 2000);
+      alert('띠리리리리리링!!!!');
+    }, totalMilliseconds);
   };
 
   render() {
-    const { date, myHour, myMinute, mySecond } = this.state;
+    const {
+      date,
+      myHour,
+      myMinute,
+      mySecond,
+      test,
+      beforeMillisecond,
+      afterMillisecond
+    } = this.state;
     const hours = date.getHours();
     const minutes = date.getMinutes();
     const seconds = date.getSeconds();
+
+    const rHour = myHour * 3600 - hours * 3600;
+    const rMinute = myMinute * 60 - minutes * 60;
+    const totalMilliseconds = rHour + rMinute;
 
     return (
       <View style={styles.container}>
@@ -67,15 +67,6 @@ class AlarmContainer extends Component {
 
         <View style={styles.optionBox}>
           <View style={styles.options}>
-            <View style={styles.optionItem}>
-              <View style={styles.inputField}>
-                <TextInput
-                  style={styles.input}
-                  placeholder="오전/오후"
-                  onChangeText={text => this.setState({ myType: text })}
-                />
-              </View>
-            </View>
             <View style={styles.optionItem}>
               <View style={styles.inputField}>
                 <TextInput
@@ -107,7 +98,7 @@ class AlarmContainer extends Component {
           </View>
           <View style={styles.emptyBox}>
             <TouchableOpacity
-              onPress={this.setAlarm}
+              onPress={() => this.setAlarm(totalMilliseconds)}
               style={styles.createButton}
             >
               >
@@ -120,8 +111,10 @@ class AlarmContainer extends Component {
             알람: {myHour} 시 {myMinute} 분 {mySecond} 초
           </Text>
           <Text>
-            남은시간: {(myHour - hours) * 3600} 시 {(myMinute - minutes) * 60}{' '}
-            분 {mySecond - seconds} 초
+            초: {myHour} / {myHour * 3600 - hours * 3600}
+          </Text>
+          <Text>
+            분: {myMinute} / {myMinute * 60 - minutes * 60}
           </Text>
         </View>
       </View>
